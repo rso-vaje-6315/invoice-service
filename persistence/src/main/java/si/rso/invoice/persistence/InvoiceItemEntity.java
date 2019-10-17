@@ -14,6 +14,9 @@ public class InvoiceItemEntity extends BaseEntity {
     
     private double quantity;
     
+    @Column(name = "total_price")
+    private double totalPrice;
+    
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "invoice_id")
     private InvoiceEntity invoice;
@@ -48,5 +51,21 @@ public class InvoiceItemEntity extends BaseEntity {
     
     public void setQuantity(double quantity) {
         this.quantity = quantity;
+    }
+    
+    public double getTotalPrice() {
+        return totalPrice;
+    }
+    
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+    
+    public InvoiceEntity getInvoice() {
+        return invoice;
+    }
+    
+    public void setInvoice(InvoiceEntity invoice) {
+        this.invoice = invoice;
     }
 }

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+    <head>
+        <title>Invoice</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{classpath:css/style.css}"/>
+    </head>
+    <!--/*@thymesVar id="items" type="java.util.List"*/-->
+    <!--/*@thymesVar id="item" type="si.rso.invoice.persistence.InvoiceItemEntity"*/-->
+    <!--/*@thymesVar id="vatRate" type="java.lang.Double"*/-->
+    <!--/*@thymesVar id="preTax" type="java.lang.Double"*/-->
+    <!--/*@thymesVar id="taxPrice" type="java.lang.Double"*/-->
+    <!--/*@thymesVar id="totalPrice" type="java.lang.Double"*/-->
+    <body>
+
+        <div class="doc-title">
+            <h1>Invoice for order: 12335424</h1>
+        </div>
+
+        <div class="payment-info">
+            <div class="customer">
+                <div class="form">
+                    <div class="title">CUSTOMER</div>
+                    <div class="form-item">
+                        <span class="form-key">Name:</span>
+                        <span class="form-value">Janez Novak</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Address:</span>
+                        <span class="form-value">Mali dol 13</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Postal code, city:</span>
+                        <span class="form-value">1000 Ljubljana</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Country:</span>
+                        <span class="form-value">Slovenia</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">E-mail:</span>
+                        <span class="form-value">janez@pigs4all.com</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Phone:</span>
+                        <span class="form-value">+386060878233</span>
+                    </div>
+                </div>
+            </div>
+            <div class="company">
+                <div class="form">
+                    <div class="title">SELLER</div>
+                    <div class="form-item">
+                        <span class="form-key">Name:</span>
+                        <span class="form-value">Sellers d.o.o</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Address:</span>
+                        <span class="form-value">Orange street</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Postal code, city:</span>
+                        <span class="form-value">2000 Maribor</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Country:</span>
+                        <span class="form-value">Slovenia</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Phone:</span>
+                        <span class="form-value">+3890998543</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">Tax number:</span>
+                        <span class="form-value">6024562335</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">BIC:</span>
+                        <span class="form-value">BSLJXXXXXX</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">IBAN:</span>
+                        <span class="form-value">SI56 2345 1234 9678 990</span>
+                    </div>
+                    <div class="form-item">
+                        <span class="form-key">E-mail:</span>
+                        <span class="form-value">sales@sellers.com</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="items">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Code</th>
+                        <th>Title</th>
+                        <th class="num">Quantity</th>
+                        <th class="num">Price</th>
+                        <th class="num">Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="item : ${items}">
+                        <td th:text="${item.code}"></td>
+                        <td th:text="${item.name}"></td>
+                        <td class="num" th:text="${#numbers.formatDecimal(item.quantity, 1, 'POINT', 0, 'COMMA')}"></td>
+                        <td class="num" th:text="${#numbers.formatDecimal(item.price, 1, 'POINT', 2, 'COMMA') + ' €'}"></td>
+                        <td class="num" th:text="${#numbers.formatDecimal(item.totalPrice, 1, 'POINT', 2, 'COMMA') + ' €'}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="summary">
+            <div class="form">
+                <div class="form-item">
+                    <span class="form-key">VAT rate:</span>
+                    <span class="form-value" th:text="${#numbers.formatPercent(vatRate, 1, 2)}"></span>
+                </div>
+                <div class="form-item">
+                    <span class="form-key">Pre-tax:</span>
+                    <span class="form-value" th:text="${#numbers.formatDecimal(preTax, 1, 'POINT', 2, 'COMMA') + ' €'}"></span>
+                </div>
+                <div class="form-item">
+                    <span class="form-key">VAT:</span>
+                    <span class="form-value" th:text="${#numbers.formatDecimal(taxPrice, 1, 'POINT', 2, 'COMMA') + ' €'}"></span>
+                </div>
+                <div class="form-divider"></div>
+                <div class="form-item">
+                    <span class="form-key">Total:</span>
+                    <span class="form-value" th:text="${#numbers.formatDecimal(totalPrice, 1, 'POINT', 2, 'COMMA') + ' €'}"></span>
+                </div>
+            </div>
+        </div>
+
+    </body>
+</html>

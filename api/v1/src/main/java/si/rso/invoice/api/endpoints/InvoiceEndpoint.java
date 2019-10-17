@@ -14,7 +14,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
-@Path("/test")
+@Path("/invoices")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -39,5 +39,12 @@ public class InvoiceEndpoint {
     public Response getInvoice(@PathParam("id") String orderId) {
         Invoice invoice = invoiceService.getInvoice(orderId);
         return Response.ok(invoice).build();
+    }
+    
+    @GET
+    @Path("/test")
+    public Response test() {
+        this.invoiceService.createInvoice("tra");
+        return Response.ok().build();
     }
 }

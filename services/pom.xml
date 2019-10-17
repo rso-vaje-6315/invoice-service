@@ -58,6 +58,14 @@
             <groupId>si.rso.rest</groupId>
             <artifactId>rest-utils</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.thymeleaf</groupId>
+            <artifactId>thymeleaf</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.xhtmlrenderer</groupId>
+            <artifactId>flying-saucer-pdf</artifactId>
+        </dependency>
     </dependencies>
 
 </project>

@@ -48,3 +48,8 @@ kumuluzee:
                "resource": "invoice-service",
                "confidential-port": 0
              }'
+  rest-client:
+    registrations:
+      - class: order-service
+        url: http://localhost:8081/v1
+        read-timeout: 5000

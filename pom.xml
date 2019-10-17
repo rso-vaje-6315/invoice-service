@@ -28,6 +28,8 @@
         <postgres.version>42.2.7</postgres.version>
         <keycloak.version>7.0.0</keycloak.version>
         <rso-rest.version>1.0.0</rso-rest.version>
+        <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
+        <flying-saucer.version>9.1.12</flying-saucer.version>
     </properties>
 
     <modules>
@@ -127,6 +129,16 @@
                 <groupId>si.rso.rest</groupId>
                 <artifactId>rest-utils</artifactId>
                 <version>${rso-rest.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.thymeleaf</groupId>
+                <artifactId>thymeleaf</artifactId>
+                <version>${thymeleaf.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.xhtmlrenderer</groupId>
+                <artifactId>flying-saucer-pdf</artifactId>
+                <version>${flying-saucer.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
