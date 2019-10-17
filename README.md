@@ -1,4 +1,5 @@
 # Invoice service
+![build](https://travis-ci.org/rso-vaje-6315/invoice-service.svg)
 
 ## Usage
 
