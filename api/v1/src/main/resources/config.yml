@@ -1,0 +1,50 @@
+kumuluzee:
+  name: invoice-service
+  version: 1.0.0-SNAPSHOT
+  env:
+    prod: false
+    name: dev
+  server:
+    show-server-info: false
+    base-url: http://localhost:8080
+  cors-filter:
+    servlet:
+      allow-origin: "*"
+      supported-methods: "GET, POST, PUT, PATCH, DELETE, OPTIONS, HEAD"
+      exposed-headers: "X-Total-Count"
+  openapi:
+    enabled: true
+    ui:
+      enabled: true
+  logs:
+    loggers:
+      - name: ''
+        level: INFO
+  health:
+    servlet:
+      mapping: /health/
+      enabled: true
+    checks:
+      data-source-health-check:
+        type: liveness
+        jndi-name: jdbc/mainDB
+      disk-space-health-check:
+        threshold: 100000000
+        type: liveness
+  datasources:
+    - jndi-name: jdbc/mainDB
+      connection-url: jdbc:postgresql://localhost:5432/invoice-service
+      username: postgres
+      password: postgres
+      pool:
+        max-size: 20
+  security:
+    keycloak:
+      json: '{
+               "realm": "rso",
+               "bearer-only": true,
+               "auth-server-url": "https://keycloak.mjamsek.com/auth",
+               "ssl-required": "external",
+               "resource": "invoice-service",
+               "confidential-port": 0
+             }'
