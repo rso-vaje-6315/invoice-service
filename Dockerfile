@@ -11,7 +11,7 @@ ENV KUMULUZEE_LOGS_LOGGERS0_LEVEL=INFO
 RUN mkdir /app
 WORKDIR /app
 
-ADD ./api/target/invoice-service.jar /app
+ADD ./api/v1/target/invoice-service.jar /app
 
 EXPOSE 8080
 
