@@ -11,4 +11,34 @@
             <password>${env.CI_NEXUS_PASS}</password>
         </server>
     </servers>
+
+    <profiles>
+        <profile>
+            <id>rso</id>
+            <repositories>
+                <repository>
+                    <id>rso-store</id>
+                    <url>https://nexus.mjamsek.com/repository/rso-store</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </repository>
+            </repositories>
+            <pluginRepositories>
+                <pluginRepository>
+                    <id>rso-public</id>
+                    <url>https://nexus.mjamsek.com/repository/rso-public</url>
+                    <releases>
+                        <enabled>true</enabled>
+                    </releases>
+                    <snapshots>
+                        <enabled>true</enabled>
+                    </snapshots>
+                </pluginRepository>
+            </pluginRepositories>
+        </profile>
+    </profiles>
 </settings>
