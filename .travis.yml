@@ -8,5 +8,5 @@ cache:
   directories:
   - "$HOME/.m2"
 
-install: mvn clean install -DskipTests=true -V -U
+install: mvn clean install -DskipTests=true --settings .ci/settings.xml -P rso
 # script: mvn test
