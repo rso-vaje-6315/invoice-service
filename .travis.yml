@@ -14,4 +14,14 @@ script:
   # - mvn test
 
 notifications:
-  slack: rso-6315:GemkjD1zzD1AAKrXCrn9LUC3
+  email: false
+  slack:
+    rooms:
+      - rso-6315:GemkjD1zzD1AAKrXCrn9LUC3
+    on_success: always
+    on_failure: always
+    template:
+      - "*%{result}* build for repo `%{repository_slug}` on branch `%{branch}`. Build (<%{build_url}|#%{build_number}>). Commit (<%{compare_url}|%{commit}>)."
+      - "Execution time: *%{duration}*"
+      - "Message: %{message}"
+
