@@ -12,3 +12,6 @@ install: mvn clean install -DskipTests=true --settings .ci/settings.xml -P rso
 script:
   - echo "DONE"
   # - mvn test
+
+notifications:
+  slack: rso-6315:GemkjD1zzD1AAKrXCrn9LUC3
