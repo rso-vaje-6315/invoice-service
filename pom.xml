@@ -24,10 +24,12 @@
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
         <kumuluzee-fault-tolerance.version>2.0.0</kumuluzee-fault-tolerance.version>
+        <kumuluzee-streaming.version>1.1.0</kumuluzee-streaming.version>
         <jackson.version>2.9.9</jackson.version>
         <postgres.version>42.2.7</postgres.version>
         <keycloak.version>7.0.0</keycloak.version>
         <rso-rest.version>1.0.0</rso-rest.version>
+        <rso-event-streaming.version>1.0.0-SNAPSHOT</rso-event-streaming.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <flying-saucer.version>9.1.12</flying-saucer.version>
     </properties>
@@ -139,6 +141,16 @@
                 <groupId>org.xhtmlrenderer</groupId>
                 <artifactId>flying-saucer-pdf</artifactId>
                 <version>${flying-saucer.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>si.rso.event.streaming</groupId>
+                <artifactId>event-streaming-utils</artifactId>
+                <version>${rso-event-streaming.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.streaming</groupId>
+                <artifactId>kumuluzee-streaming-kafka</artifactId>
+                <version>${kumuluzee-streaming.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

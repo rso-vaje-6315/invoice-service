@@ -5,7 +5,82 @@
     <head>
         <title>Invoice</title>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-        <link rel="stylesheet" type="text/css" media="all" th:href="@{classpath:css/style.css}"/>
+        <style>
+            * {
+                font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+            }
+
+            .doc-title {
+                margin-bottom: 60px;
+            }
+
+            .payment-info {
+                display: flex;
+                justify-content: center;
+                align-content: center;
+                margin-bottom: 60px;
+            }
+            .payment-info .customer, .payment-info .company {
+                width: 50%;
+            }
+
+            .form .title {
+                font-size: 24px;
+                font-weight: 600;
+                margin-bottom: 20px;
+            }
+
+            .form .form-item {
+                padding: 5px 0;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+            }
+
+            .form .form-item .form-key {
+                font-weight: 600;
+                width: 200px;
+            }
+
+            .items table {
+                width: calc(100% - 100px);
+            }
+
+            .items table td.num, .items table th.num {
+                text-align: center;
+            }
+            .items table th:not(.num) {
+                text-align: left;
+            }
+            .items table td {
+                padding: 10px 0;
+            }
+            .items table {
+                border-spacing: 0;
+            }
+            .items table th {
+                border-bottom: 1px solid black;
+            }
+
+            .summary {
+                margin-top: 80px;
+                margin-right: 100px;
+                display: flex;
+                align-items: flex-end;
+                flex-direction: column;
+                font-size: 18px;
+            }
+            .summary .form-divider {
+                height: 0;
+                border-bottom: 1px solid black;
+                width: 200px;
+                margin: 10px 0;
+            }
+
+            .summary .form .form-item .form-key {
+                width: 120px;
+            }
+        </style>
     </head>
     <!--/*@thymesVar id="items" type="java.util.List"*/-->
     <!--/*@thymesVar id="item" type="si.rso.invoice.persistence.InvoiceItemEntity"*/-->
