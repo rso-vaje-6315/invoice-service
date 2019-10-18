@@ -1,3 +1,8 @@
+sudo: required
+
+services:
+  - docker
+
 language: java
 dist: trusty
 
@@ -8,10 +13,13 @@ cache:
   directories:
   - "$HOME/.m2"
 
-install: mvn clean install -DskipTests=true --settings .ci/settings.xml -P rso
 script:
-  - echo "DONE"
-  # - mvn test
+  - mvn clean install -DskipTests=true --settings .ci/settings.xml -P rso
+  - docker build -t rso6315/invoice-service .
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
+  - docker push rso6315/invoice-service
 
 notifications:
   email: false
@@ -21,7 +29,7 @@ notifications:
     on_success: always
     on_failure: always
     template:
-      - "*%{result}* build for repo `%{repository_slug}` on branch `%{branch}`. Build (<%{build_url}|#%{build_number}>). Commit (<%{compare_url}|%{commit}>)."
+      - "`%{result}` build for repo `%{repository_slug}` on branch `%{branch}`. Build (<%{build_url}|#%{build_number}>). Commit (<%{compare_url}|%{commit}>)."
       - "Execution time: *%{duration}*"
-      - "Message: %{message}"
+      - "Message: *%{message}*"
 
