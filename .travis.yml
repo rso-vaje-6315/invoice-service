@@ -20,7 +20,7 @@ script:
   - docker build -t rso6315/invoice-service .
 
 after_success:
-  - mvn deploy -DskipTests=true --settings .ci/settings.xml -P rso deploy-lib
+  - mvn deploy -DskipTests=true --settings .ci/settings.xml -P rso,deploy-lib
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
   - docker push rso6315/invoice-service
 
