@@ -110,8 +110,6 @@ public class InvoiceServiceImpl implements InvoiceService {
         Map<String, Object> params = this.generateInvoiceItems(invoice);
     
         String renderedContent = this.templateService.renderTemplate("invoice", params);
-    
-        System.err.println(renderedContent);
         
         FileOutputStream fileOutputStream = null;
         String filename = "invoice-order-" + invoice.getId() + "-" + invoice.getCustomerId();
@@ -145,14 +143,24 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
     
     private double getVatRate() {
+        try {
+            String vat = this.getInvoiceConfig("vat.rate");
+            return Double.parseDouble(vat);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            throw new RestException("Error parsing VAT rate!");
+        }
+    }
+    
+    private String getInvoiceConfig(String key) {
         TypedQuery<InvoiceConfigEntity> query = em.createNamedQuery(InvoiceConfigEntity.FIND_BY_CODE, InvoiceConfigEntity.class);
-        query.setParameter("code", "vat.rate");
+        query.setParameter("code", key);
         try {
             InvoiceConfigEntity configEntity = query.getSingleResult();
-            return Double.parseDouble(configEntity.getValue());
-        } catch (NoResultException | NonUniqueResultException | NumberFormatException e) {
+            return configEntity.getValue();
+        } catch (NoResultException | NonUniqueResultException e) {
             e.printStackTrace();
-            throw new RestException("Error retrieving VAT rate!");
+            throw new RestException("Error retrieving invoice config '" + key + "'!");
         }
     }
     
@@ -168,6 +176,28 @@ public class InvoiceServiceImpl implements InvoiceService {
         params.put("taxPrice", taxPrice);
         params.put("preTax", (totalPrice - taxPrice));
         
+        readValuesFromDB(params);
+        
         return params;
+    }
+    
+    private void readValuesFromDB(Map<String, Object> params) {
+        String[] configKeys = {
+            "seller.name",
+            "seller.street",
+            "seller.street.num",
+            "seller.post",
+            "seller.post.code",
+            "seller.country",
+            "seller.phone",
+            "seller.tax.num",
+            "seller.bic",
+            "seller.iban",
+            "seller.email"
+        };
+        for (String key : configKeys) {
+            String configValue = this.getInvoiceConfig(key);
+            params.put(key.replaceAll("\\.", ""), configValue);
+        }
     }
 }

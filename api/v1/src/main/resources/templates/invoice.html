@@ -121,39 +121,39 @@
                                 <div class="title">SELLER</div>
                                 <div class="form-item">
                                     <span class="form-key">Name:</span>
-                                    <span class="form-value">Sellers d.o.o</span>
+                                    <span class="form-value" th:text="${sellername}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Address:</span>
-                                    <span class="form-value">Orange street</span>
+                                    <span class="form-value" th:text="${sellerstreet + ' ' + sellerstreetnum}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Postal code, city:</span>
-                                    <span class="form-value">2000 Maribor</span>
+                                    <span class="form-value" th:text="${sellerpostcode + ' ' + sellerpost}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Country:</span>
-                                    <span class="form-value">Slovenia</span>
+                                    <span class="form-value" th:text="${sellercountry}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Phone:</span>
-                                    <span class="form-value">+3890998543</span>
+                                    <span class="form-value" th:text="${sellerphone}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Tax number:</span>
-                                    <span class="form-value">6024562335</span>
+                                    <span class="form-value" th:text="${sellertaxnum}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">BIC:</span>
-                                    <span class="form-value">BSLJXXXXXX</span>
+                                    <span class="form-value" th:text="${sellerbic}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">IBAN:</span>
-                                    <span class="form-value">SI56 2345 1234 9678 990</span>
+                                    <span class="form-value" th:text="${selleriban}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">E-mail:</span>
-                                    <span class="form-value">sales@sellers.com</span>
+                                    <span class="form-value" th:text="${selleremail}"></span>
                                 </div>
                             </div>
                         </div>
