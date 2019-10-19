@@ -28,10 +28,11 @@
         <jackson.version>2.9.9</jackson.version>
         <postgres.version>42.2.7</postgres.version>
         <keycloak.version>7.0.0</keycloak.version>
-        <rso-rest.version>1.0.0</rso-rest.version>
+        <rso-rest.version>1.2.0</rso-rest.version>
         <rso-event-streaming.version>1.0.0-SNAPSHOT</rso-event-streaming.version>
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <flying-saucer.version>9.1.12</flying-saucer.version>
+        <rso-customers.version>1.0.0-SNAPSHOT</rso-customers.version>
     </properties>
 
     <modules>
@@ -151,6 +152,12 @@
                 <groupId>com.kumuluz.ee.streaming</groupId>
                 <artifactId>kumuluzee-streaming-kafka</artifactId>
                 <version>${kumuluzee-streaming.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>si.rso.customers</groupId>
+                <artifactId>customers-service-lib-v1</artifactId>
+                <version>${rso-customers.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
