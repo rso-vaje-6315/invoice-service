@@ -35,13 +35,6 @@
         <rso-customers.version>1.0.0-SNAPSHOT</rso-customers.version>
     </properties>
 
-    <modules>
-        <module>api</module>
-        <module>lib</module>
-        <module>services</module>
-        <module>persistence</module>
-    </modules>
-
     <dependencyManagement>
         <dependencies>
             <dependency>
@@ -162,27 +155,32 @@
         </dependencies>
     </dependencyManagement>
 
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>default-deploy</id>
-                        <phase>none</phase>
-                    </execution>
-                </executions>
-            </plugin>
-        </plugins>
-    </build>
-
     <profiles>
         <profile>
             <id>rso</id>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+
+        <profile>
+            <id>deploy-lib</id>
+            <modules>
+                <module>lib</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>default</id>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+            <modules>
+                <module>api</module>
+                <module>lib</module>
+                <module>services</module>
+                <module>persistence</module>
+            </modules>
         </profile>
     </profiles>
 
