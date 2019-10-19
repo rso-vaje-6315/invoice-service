@@ -9,48 +9,38 @@
             * {
                 font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
             }
-
             .doc-title {
-                margin-bottom: 60px;
+                margin-bottom: 40px;
             }
-
             .payment-info {
-                display: flex;
-                justify-content: center;
-                align-content: center;
                 margin-bottom: 60px;
             }
-            .payment-info .customer, .payment-info .company {
-                width: 50%;
+            .payment-info table {
+                width: 100%;
             }
-
+            .payment-info table td {
+                vertical-align: top;
+            }
             .form .title {
                 font-size: 24px;
                 font-weight: 600;
                 margin-bottom: 20px;
             }
-
             .form .form-item {
                 padding: 5px 0;
-                display: flex;
-                justify-content: flex-start;
-                align-items: center;
             }
-
             .form .form-item .form-key {
                 font-weight: 600;
                 width: 200px;
             }
-
             .items table {
-                width: calc(100% - 100px);
+                width: 90%;
             }
-
+            .items table th {
+                text-align: left;
+            }
             .items table td.num, .items table th.num {
                 text-align: center;
-            }
-            .items table th:not(.num) {
-                text-align: left;
             }
             .items table td {
                 padding: 10px 0;
@@ -61,13 +51,10 @@
             .items table th {
                 border-bottom: 1px solid black;
             }
-
             .summary {
+                float: right;
                 margin-top: 80px;
                 margin-right: 100px;
-                display: flex;
-                align-items: flex-end;
-                flex-direction: column;
                 font-size: 18px;
             }
             .summary .form-divider {
@@ -76,7 +63,6 @@
                 width: 200px;
                 margin: 10px 0;
             }
-
             .summary .form .form-item .form-key {
                 width: 120px;
             }
@@ -95,76 +81,85 @@
         </div>
 
         <div class="payment-info">
-            <div class="customer">
-                <div class="form">
-                    <div class="title">CUSTOMER</div>
-                    <div class="form-item">
-                        <span class="form-key">Name:</span>
-                        <span class="form-value">Janez Novak</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Address:</span>
-                        <span class="form-value">Mali dol 13</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Postal code, city:</span>
-                        <span class="form-value">1000 Ljubljana</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Country:</span>
-                        <span class="form-value">Slovenia</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">E-mail:</span>
-                        <span class="form-value">janez@pigs4all.com</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Phone:</span>
-                        <span class="form-value">+386060878233</span>
-                    </div>
-                </div>
-            </div>
-            <div class="company">
-                <div class="form">
-                    <div class="title">SELLER</div>
-                    <div class="form-item">
-                        <span class="form-key">Name:</span>
-                        <span class="form-value">Sellers d.o.o</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Address:</span>
-                        <span class="form-value">Orange street</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Postal code, city:</span>
-                        <span class="form-value">2000 Maribor</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Country:</span>
-                        <span class="form-value">Slovenia</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Phone:</span>
-                        <span class="form-value">+3890998543</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">Tax number:</span>
-                        <span class="form-value">6024562335</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">BIC:</span>
-                        <span class="form-value">BSLJXXXXXX</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">IBAN:</span>
-                        <span class="form-value">SI56 2345 1234 9678 990</span>
-                    </div>
-                    <div class="form-item">
-                        <span class="form-key">E-mail:</span>
-                        <span class="form-value">sales@sellers.com</span>
-                    </div>
-                </div>
-            </div>
+            <table>
+                <tr>
+                    <td>
+                        <div class="customer">
+                            <div class="form">
+                                <div class="title">CUSTOMER</div>
+                                <div class="form-item">
+                                    <span class="form-key">Name:</span>
+                                    <span class="form-value">Janez Novak</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Address:</span>
+                                    <span class="form-value">Mali dol 13</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Postal code, city:</span>
+                                    <span class="form-value">1000 Ljubljana</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Country:</span>
+                                    <span class="form-value">Slovenia</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">E-mail:</span>
+                                    <span class="form-value">janez@pigs4all.com</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Phone:</span>
+                                    <span class="form-value">+386060878233</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td>
+                        <div class="company">
+                            <div class="form">
+                                <div class="title">SELLER</div>
+                                <div class="form-item">
+                                    <span class="form-key">Name:</span>
+                                    <span class="form-value">Sellers d.o.o</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Address:</span>
+                                    <span class="form-value">Orange street</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Postal code, city:</span>
+                                    <span class="form-value">2000 Maribor</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Country:</span>
+                                    <span class="form-value">Slovenia</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Phone:</span>
+                                    <span class="form-value">+3890998543</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">Tax number:</span>
+                                    <span class="form-value">6024562335</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">BIC:</span>
+                                    <span class="form-value">BSLJXXXXXX</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">IBAN:</span>
+                                    <span class="form-value">SI56 2345 1234 9678 990</span>
+                                </div>
+                                <div class="form-item">
+                                    <span class="form-key">E-mail:</span>
+                                    <span class="form-value">sales@sellers.com</span>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
 
         <div class="items">
