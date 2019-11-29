@@ -53,6 +53,11 @@ kumuluzee:
       - class: order-service
         url: http://localhost:8081/v1
         read-timeout: 5000
+  grpc:
+    server:
+      url: localhost
+      http:
+        port: 8443
   streaming:
     kafka:
       producer:

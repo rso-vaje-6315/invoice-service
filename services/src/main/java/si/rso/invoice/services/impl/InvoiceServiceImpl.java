@@ -45,7 +45,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     private NotificationService notificationService;
     
     @Override
-    public void createInvoice(String orderId) {
+    public Invoice createInvoice(String orderId) {
         
         //TODO: import order-service-lib and replace entities
         
@@ -81,6 +81,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         this.generatePrintableInvoice(invoiceEntity);
         
         notificationService.sendNotification(invoiceEntity);
+        
+        return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }
     
     @Override
