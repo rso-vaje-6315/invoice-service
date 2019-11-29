@@ -34,6 +34,7 @@
         <flying-saucer.version>9.1.12</flying-saucer.version>
         <rso-customers.version>1.0.0-SNAPSHOT</rso-customers.version>
         <rso-notifications.version>1.0.0-SNAPSHOT</rso-notifications.version>
+        <kumuluzee-grpc.version>1.1.0</kumuluzee-grpc.version>
     </properties>
 
     <dependencyManagement>
