@@ -53,3 +53,14 @@ kumuluzee:
       - class: order-service
         url: http://localhost:8081/v1
         read-timeout: 5000
+  streaming:
+    kafka:
+      producer:
+        bootstrap-servers: localhost:9092
+        acks: all
+        retries: 3
+        batch-size: 16384
+        linger-ms: 20
+        buffer-memory: 33554432
+        key-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: org.apache.kafka.common.serialization.StringSerializer

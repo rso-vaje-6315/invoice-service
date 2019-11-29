@@ -74,10 +74,11 @@
     <!--/*@thymesVar id="preTax" type="java.lang.Double"*/-->
     <!--/*@thymesVar id="taxPrice" type="java.lang.Double"*/-->
     <!--/*@thymesVar id="totalPrice" type="java.lang.Double"*/-->
+    <!--/*@thymesVar id="invoiceId" type="java.lang.String"*/-->
     <body>
 
         <div class="doc-title">
-            <h1>Invoice for order: 12335424</h1>
+            <h1>Invoice for order: <span th:text="${invoiceId}"></span></h1>
         </div>
 
         <div class="payment-info">

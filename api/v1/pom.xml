@@ -74,6 +74,10 @@
             <groupId>org.keycloak</groupId>
             <artifactId>keycloak-jetty94-adapter</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee.grpc</groupId>
+            <artifactId>kumuluzee-grpc</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

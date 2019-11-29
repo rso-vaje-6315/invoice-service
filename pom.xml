@@ -24,7 +24,9 @@
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
         <kumuluzee-fault-tolerance.version>2.0.0</kumuluzee-fault-tolerance.version>
-        <kumuluzee-streaming.version>1.1.0</kumuluzee-streaming.version>
+        <kumuluzee-streaming.version>1.2.0</kumuluzee-streaming.version>
+        <kumuluzee-grpc.version>1.1.0</kumuluzee-grpc.version>
+
         <jackson.version>2.9.9</jackson.version>
         <postgres.version>42.2.7</postgres.version>
         <keycloak.version>7.0.0</keycloak.version>
@@ -33,6 +35,7 @@
         <thymeleaf.version>3.0.11.RELEASE</thymeleaf.version>
         <flying-saucer.version>9.1.12</flying-saucer.version>
         <rso-customers.version>1.0.0-SNAPSHOT</rso-customers.version>
+        <rso-notifications.version>1.0.0-SNAPSHOT</rso-notifications.version>
     </properties>
 
     <dependencyManagement>
@@ -151,6 +154,16 @@
                 <groupId>si.rso.customers</groupId>
                 <artifactId>customers-service-lib-v1</artifactId>
                 <version>${rso-customers.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>si.rso.notifications</groupId>
+                <artifactId>notification-service-lib-v1</artifactId>
+                <version>${rso-notifications.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.grpc</groupId>
+                <artifactId>kumuluzee-grpc</artifactId>
+                <version>${kumuluzee-grpc.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

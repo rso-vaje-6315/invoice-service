@@ -6,6 +6,7 @@
 
         <class>si.rso.invoice.persistence.InvoiceEntity</class>
         <class>si.rso.invoice.persistence.InvoiceItemEntity</class>
+        <class>si.rso.invoice.persistence.InvoiceConfigEntity</class>
 
         <properties>
             <property name="hibernate.dialect" value="org.hibernate.dialect.PostgreSQL10Dialect"/>

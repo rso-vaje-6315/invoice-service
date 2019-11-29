@@ -3,7 +3,6 @@ package si.rso.invoice.services.impl;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.lowagie.text.DocumentException;
-import org.eclipse.microprofile.rest.client.inject.RestClient;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import si.rso.invoice.lib.Invoice;
 import si.rso.invoice.mappers.InvoiceMapper;
@@ -11,7 +10,7 @@ import si.rso.invoice.persistence.InvoiceConfigEntity;
 import si.rso.invoice.persistence.InvoiceEntity;
 import si.rso.invoice.persistence.InvoiceItemEntity;
 import si.rso.invoice.services.InvoiceService;
-import si.rso.invoice.services.OrderService;
+import si.rso.invoice.services.NotificationService;
 import si.rso.invoice.services.TemplateService;
 import si.rso.rest.exceptions.NotFoundException;
 import si.rso.rest.exceptions.RestException;
@@ -22,7 +21,6 @@ import javax.persistence.*;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.CopyOption;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
@@ -31,6 +29,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+
+// import si.rso.invoice.services.OrderService;
 
 @ApplicationScoped
 public class InvoiceServiceImpl implements InvoiceService {
@@ -41,15 +41,13 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Inject
     private TemplateService templateService;
     
-    /*@Inject
-    @RestClient
-    private OrderService orderService;*/
+    @Inject
+    private NotificationService notificationService;
     
     @Override
     public void createInvoice(String orderId) {
         
         //TODO: import order-service-lib and replace entities
-        //Object order = orderService.getOrder(orderId);
         
         InvoiceEntity invoiceEntity = new InvoiceEntity();
         invoiceEntity.setId("invoiceId");
@@ -81,6 +79,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         invoiceEntity.getItems().add(item3);
         
         this.generatePrintableInvoice(invoiceEntity);
+        
+        notificationService.sendNotification(invoiceEntity);
     }
     
     @Override
@@ -175,6 +175,8 @@ public class InvoiceServiceImpl implements InvoiceService {
         double taxPrice = totalPrice * vatRate;
         params.put("taxPrice", taxPrice);
         params.put("preTax", (totalPrice - taxPrice));
+        
+        params.put("invoiceId", invoice.getId());
         
         readValuesFromDB(params);
         

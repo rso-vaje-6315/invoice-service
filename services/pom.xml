@@ -39,6 +39,10 @@
             <artifactId>kumuluzee-rest-client</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.kumuluz.ee.streaming</groupId>
+            <artifactId>kumuluzee-streaming-kafka</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.kumuluz.ee</groupId>
             <artifactId>kumuluzee-json-p-jsonp</artifactId>
         </dependency>
@@ -74,6 +78,10 @@
         <dependency>
             <groupId>si.rso.customers</groupId>
             <artifactId>customers-service-lib-v1</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>si.rso.notifications</groupId>
+            <artifactId>notification-service-lib-v1</artifactId>
         </dependency>
     </dependencies>
 
