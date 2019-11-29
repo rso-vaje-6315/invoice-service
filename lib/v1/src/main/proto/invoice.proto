@@ -1,0 +1,15 @@
+syntax = "proto3";
+option java_package = "grpc";
+
+service InvoiceService {
+    rpc createInvoice(InvoiceRequest) returns (InvoiceResponse) {};
+}
+
+message InvoiceRequest {
+    string orderId = 1;
+}
+
+message InvoiceResponse {
+    int32 status = 1;
+    string invoiceId = 2;
+}
