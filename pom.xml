@@ -25,9 +25,7 @@
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
         <kumuluzee-fault-tolerance.version>2.0.0</kumuluzee-fault-tolerance.version>
         <kumuluzee-streaming.version>1.2.0</kumuluzee-streaming.version>
-        <kumuluzee-grpc.version>1.1.0</kumuluzee-grpc.version>
-
-        <jackson.version>2.9.9</jackson.version>
+        <jackson.version>2.9.10.1</jackson.version>
         <postgres.version>42.2.7</postgres.version>
         <keycloak.version>7.0.0</keycloak.version>
         <rso-rest.version>1.2.0</rso-rest.version>
