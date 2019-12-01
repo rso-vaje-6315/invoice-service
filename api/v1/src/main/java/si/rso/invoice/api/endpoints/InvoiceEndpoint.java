@@ -1,5 +1,7 @@
 package si.rso.invoice.api.endpoints;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.rso.invoice.lib.Invoice;
 import si.rso.invoice.services.InvoiceService;
@@ -46,5 +48,26 @@ public class InvoiceEndpoint {
     public Response test() {
         this.invoiceService.createInvoice("tra");
         return Response.ok().build();
+    }
+    
+    @GET
+    @Path("/config")
+    public Response getConfig() {
+        ObjectMapper mapper = new ObjectMapper();
+        ObjectNode responseNode = mapper.createObjectNode();
+        
+        ObjectNode vatNode = mapper.createObjectNode();
+        vatNode.put("vatRate", "0.22");
+        responseNode.set("vat", vatNode);
+    
+        ObjectNode companyNode = mapper.createObjectNode();
+        
+        companyNode.put("name", "Sellers d.o.o.");
+        companyNode.put("address", "Ljubljanska ulica 1, 1000 Ljubljana");
+        companyNode.put("phone", "+386134768812");
+        companyNode.put("email", "sellers@mail.com");
+        responseNode.set("company", companyNode);
+        
+        return Response.ok(responseNode).build();
     }
 }
