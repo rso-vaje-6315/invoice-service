@@ -22,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
     
     @Inject
     @StreamProducer
-    private Producer<String, String> producer;
+    private Producer<String, EventStreamMessage> producer;
     
     @Override
     public void sendNotification(InvoiceEntity invoice) {
@@ -36,25 +36,18 @@ public class NotificationServiceImpl implements NotificationService {
         channelNotification.setEmail(email);
         
         EventStreamMessage message = EventStreamMessageBuilder.getInstance()
-            .ofType(NotificationsStreamConfig.KAFKA_SEND_NOTIFICATION_EVENT_ID)
+            .ofType(NotificationsStreamConfig.SEND_NOTIFICATION_EVENT_ID)
             .withData(JacksonMapper.stringify(channelNotification))
             .build();
-        
-        Optional<String> eventStreamMessage = EventStreamMessageParser.encodeMessage(message);
-        
-        if (eventStreamMessage.isPresent()) {
     
-            ProducerRecord<String, String> record = new ProducerRecord<>(
-                NotificationsStreamConfig.KAFKA_NOTIFICATIONS_CHANNEL,
-                "key",
-                eventStreamMessage.get()
-            );
-        
-            producer.send(record, (meta, exc) -> {
-                if (exc != null) {
-                    exc.printStackTrace();
-                }
-            });
-        }
+        ProducerRecord<String, EventStreamMessage> record = new ProducerRecord<>(
+            NotificationsStreamConfig.NOTIFICATIONS_CHANNEL, "key", message
+        );
+    
+        producer.send(record, (meta, exc) -> {
+            if (exc != null) {
+                exc.printStackTrace();
+            }
+        });
     }
 }

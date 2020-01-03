@@ -4,6 +4,7 @@ import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.lowagie.text.DocumentException;
 import org.xhtmlrenderer.pdf.ITextRenderer;
+import si.rso.invoice.apis.OrdersApi;
 import si.rso.invoice.lib.Invoice;
 import si.rso.invoice.mappers.InvoiceMapper;
 import si.rso.invoice.persistence.InvoiceConfigEntity;
@@ -11,13 +12,16 @@ import si.rso.invoice.persistence.InvoiceEntity;
 import si.rso.invoice.persistence.InvoiceItemEntity;
 import si.rso.invoice.services.InvoiceService;
 import si.rso.invoice.services.NotificationService;
+import si.rso.invoice.services.StorageConnection;
 import si.rso.invoice.services.TemplateService;
+import si.rso.orders.lib.Order;
 import si.rso.rest.exceptions.NotFoundException;
 import si.rso.rest.exceptions.RestException;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
 import javax.persistence.*;
+import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -44,14 +48,19 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Inject
     private NotificationService notificationService;
     
+    @Inject
+    private StorageConnection storageConnection;
+    
+    private OrdersApi ordersApi;
+    
     @Override
+    @Transactional
     public Invoice createInvoice(String orderId) {
         
-        //TODO: import order-service-lib and replace entities
+        // Order order = ordersApi.getOrder(orderId);
         
         InvoiceEntity invoiceEntity = new InvoiceEntity();
-        invoiceEntity.setId("invoiceId");
-        invoiceEntity.setCustomerId("customerId");
+        invoiceEntity.setCustomerId("order.getCustomerId()");
         invoiceEntity.setItems(new ArrayList<>());
     
         InvoiceItemEntity item1 = new InvoiceItemEntity();
@@ -77,9 +86,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         item3.setPrice(199);
         item3.setTotalPrice(597);
         invoiceEntity.getItems().add(item3);
+        em.persist(invoiceEntity);
         
-        this.generatePrintableInvoice(invoiceEntity);
-        
+        String invoiceUrl = this.generatePrintableInvoice(invoiceEntity);
+        invoiceEntity.setInvoiceUrl(invoiceUrl);
+        em.merge(invoiceEntity);
+    
         notificationService.sendNotification(invoiceEntity);
         
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
@@ -107,7 +119,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }
     
-    private void generatePrintableInvoice(InvoiceEntity invoice) {
+    private String generatePrintableInvoice(InvoiceEntity invoice) {
         
         Map<String, Object> params = this.generateInvoiceItems(invoice);
     
@@ -128,7 +140,9 @@ public class InvoiceServiceImpl implements InvoiceService {
             if (!Files.exists(Path.of("invoices"))) {
                 Files.createDirectory(Path.of("invoices"));
             }
-            Files.copy(pdfFile.toPath(), Path.of("invoices/" + filename + ".pdf"), StandardCopyOption.REPLACE_EXISTING);
+            Path storedFilePath = Files.copy(pdfFile.toPath(), Path.of("invoices/" + filename + ".pdf"), StandardCopyOption.REPLACE_EXISTING);
+            
+            return storageConnection.uploadFile(new File(storedFilePath.toString()));
             
         } catch (IOException | DocumentException e) {
             e.printStackTrace();

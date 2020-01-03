@@ -62,10 +62,14 @@ kumuluzee:
     kafka:
       producer:
         bootstrap-servers: localhost:9092
-        acks: all
-        retries: 3
-        batch-size: 16384
-        linger-ms: 20
-        buffer-memory: 33554432
+        #acks: all
+        #retries: 3
+        #batch-size: 16384
+        #linger-ms: 20
+        #buffer-memory: 33554432
         key-serializer: org.apache.kafka.common.serialization.StringSerializer
-        value-serializer: org.apache.kafka.common.serialization.StringSerializer
+        value-serializer: si.rso.event.streaming.serialization.EventStreamMessageSerializer
+google:
+  storage:
+    url: https://storage.googleapis.com
+    bucket-name: rso-vaje-bucket
