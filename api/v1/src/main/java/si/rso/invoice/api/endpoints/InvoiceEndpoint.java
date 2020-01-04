@@ -2,6 +2,7 @@ package si.rso.invoice.api.endpoints;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
+import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import si.rso.invoice.lib.Invoice;
 import si.rso.invoice.services.InvoiceService;
@@ -16,6 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
 import java.util.List;
 
+@Log
 @Path("/invoices")
 @RequestScoped
 @Produces(MediaType.APPLICATION_JSON)
