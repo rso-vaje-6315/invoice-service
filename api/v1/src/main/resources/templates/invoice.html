@@ -90,27 +90,27 @@
                                 <div class="title">CUSTOMER</div>
                                 <div class="form-item">
                                     <span class="form-key">Name:</span>
-                                    <span class="form-value">Janez Novak</span>
+                                    <span class="form-value" th:text="${customerName}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Address:</span>
-                                    <span class="form-value">Mali dol 13</span>
+                                    <span class="form-value" th:text="${customerStreet}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Postal code, city:</span>
-                                    <span class="form-value">1000 Ljubljana</span>
+                                    <span class="form-value" th:text="${customerPost}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Country:</span>
-                                    <span class="form-value">Slovenia</span>
+                                    <span class="form-value" th:text="${customerCountry}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">E-mail:</span>
-                                    <span class="form-value">janez@pigs4all.com</span>
+                                    <span class="form-value" th:text="${customerEmail}"></span>
                                 </div>
                                 <div class="form-item">
                                     <span class="form-key">Phone:</span>
-                                    <span class="form-value">+386060878233</span>
+                                    <span class="form-value" th:text="${customerPhone}"></span>
                                 </div>
                             </div>
                         </div>

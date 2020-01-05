@@ -5,7 +5,6 @@ import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import si.rso.event.streaming.EventStreamMessage;
 import si.rso.event.streaming.EventStreamMessageBuilder;
-import si.rso.event.streaming.EventStreamMessageParser;
 import si.rso.event.streaming.JacksonMapper;
 import si.rso.invoice.persistence.InvoiceEntity;
 import si.rso.invoice.services.NotificationService;
@@ -15,7 +14,6 @@ import si.rso.notifications.lib.NotificationsStreamConfig;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
-import java.util.Optional;
 
 @ApplicationScoped
 public class NotificationServiceImpl implements NotificationService {
@@ -25,12 +23,17 @@ public class NotificationServiceImpl implements NotificationService {
     private Producer<String, EventStreamMessage> producer;
     
     @Override
-    public void sendNotification(InvoiceEntity invoice) {
+    public void sendNotification(InvoiceEntity invoice, String customerEmail) {
     
         EmailNotification email = new EmailNotification();
         email.setSubject("Invoice " + invoice.getId());
-        email.setEmail("");
+        email.setEmail(customerEmail);
         email.setHtmlContent("<h1>Order</h1><p>Invoice created!</p>");
+    
+        var attachment = new EmailNotification.EmailAttachment();
+        attachment.setName("invoice_" + invoice.getId());
+        attachment.setUrl(invoice.getInvoiceUrl());
+        email.setAttachment(attachment);
     
         ChannelNotification channelNotification = new ChannelNotification();
         channelNotification.setEmail(email);

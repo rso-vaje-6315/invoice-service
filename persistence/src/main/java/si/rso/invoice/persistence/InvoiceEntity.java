@@ -1,19 +1,21 @@
 package si.rso.invoice.persistence;
 
-import javax.persistence.*;
-import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Entity
 @Table(name = "invoices")
 public class InvoiceEntity extends BaseEntity {
     
+    @Column(name = "customer_id")
     private String customerId;
-    
-    @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    private List<InvoiceItemEntity> items;
     
     @Column(name = "invoice_url")
     private String invoiceUrl;
+    
+    @Column(name = "order_id")
+    private String orderId;
     
     public String getCustomerId() {
         return customerId;
@@ -23,19 +25,19 @@ public class InvoiceEntity extends BaseEntity {
         this.customerId = customerId;
     }
     
-    public List<InvoiceItemEntity> getItems() {
-        return items;
-    }
-    
-    public void setItems(List<InvoiceItemEntity> items) {
-        this.items = items;
-    }
-    
     public String getInvoiceUrl() {
         return invoiceUrl;
     }
     
     public void setInvoiceUrl(String invoiceUrl) {
         this.invoiceUrl = invoiceUrl;
+    }
+    
+    public String getOrderId() {
+        return orderId;
+    }
+    
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
     }
 }

@@ -46,13 +46,6 @@ public class InvoiceEndpoint {
     }
     
     @GET
-    @Path("/test")
-    public Response test() {
-        this.invoiceService.createInvoice("tra");
-        return Response.ok().build();
-    }
-    
-    @GET
     @Path("/config")
     public Response getConfig() {
         ObjectMapper mapper = new ObjectMapper();
