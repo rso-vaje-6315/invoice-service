@@ -3,6 +3,10 @@ package si.rso.invoice.services.impl;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.lowagie.text.DocumentException;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.xhtmlrenderer.pdf.ITextRenderer;
 import si.rso.invoice.lib.Invoice;
 import si.rso.invoice.lib.InvoiceItem;
@@ -26,6 +30,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +52,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Inject
     private StorageConnection storageConnection;
     
+    @CircuitBreaker
+    @Timeout(value = 3000)
+    @Retry(delay = 500)
     @Override
     @Transactional
     public Invoice createInvoice(grpc.Invoice.InvoiceRequest request) {
@@ -69,12 +77,18 @@ public class InvoiceServiceImpl implements InvoiceService {
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }
     
+    @CircuitBreaker
+    @Fallback(fallbackMethod = "getInvoicesFallback")
     @Override
     public List<Invoice> getInvoices(QueryParameters query) {
         return JPAUtils.queryEntities(em, InvoiceEntity.class, query)
             .stream()
             .map(InvoiceMapper::fromInvoiceEntity)
             .collect(Collectors.toList());
+    }
+    
+    public List<Invoice> getInvoicesFallback(QueryParameters __) {
+        return new ArrayList<>();
     }
     
     @Override

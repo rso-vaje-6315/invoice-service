@@ -23,7 +23,6 @@
         <kumuluzee-security.version>1.1.0</kumuluzee-security.version>
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
-        <kumuluzee-fault-tolerance.version>2.0.0</kumuluzee-fault-tolerance.version>
         <kumuluzee-streaming.version>1.2.0</kumuluzee-streaming.version>
         <kumuluzee-grpc.version>1.1.0</kumuluzee-grpc.version>
         <kumuluzee-fault-tolerance.version>2.0.1</kumuluzee-fault-tolerance.version>

@@ -3,6 +3,7 @@ package si.rso.invoice.services.impl;
 import com.kumuluz.ee.streaming.common.annotations.StreamProducer;
 import org.apache.kafka.clients.producer.Producer;
 import org.apache.kafka.clients.producer.ProducerRecord;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
 import si.rso.event.streaming.EventStreamMessage;
 import si.rso.event.streaming.EventStreamMessageBuilder;
 import si.rso.event.streaming.JacksonMapper;
@@ -22,6 +23,7 @@ public class NotificationServiceImpl implements NotificationService {
     @StreamProducer
     private Producer<String, EventStreamMessage> producer;
     
+    @CircuitBreaker
     @Override
     public void sendNotification(InvoiceEntity invoice, String customerEmail) {
     
