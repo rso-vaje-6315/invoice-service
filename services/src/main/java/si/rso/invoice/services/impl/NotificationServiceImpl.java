@@ -31,7 +31,7 @@ public class NotificationServiceImpl implements NotificationService {
         email.setHtmlContent("<h1>Order</h1><p>Invoice created!</p>");
     
         var attachment = new EmailNotification.EmailAttachment();
-        attachment.setName("invoice_" + invoice.getId());
+        attachment.setName("invoice_" + invoice.getId() + ".pdf");
         attachment.setUrl(invoice.getInvoiceUrl());
         email.setAttachment(attachment);
     
