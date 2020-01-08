@@ -17,26 +17,11 @@ public class InvoiceMapper {
         invoice.setId(entity.getId());
         invoice.setTimestamp(entity.getTimestamp());
         
-        if (entity.getItems() != null) {
-            List<InvoiceItem> items = entity.getItems()
-                .stream()
-                .map(InvoiceMapper::fromInvoiceItemEntity)
-                .collect(Collectors.toList());
-            invoice.setItems(items);
-        } else {
-            invoice.setItems(new ArrayList<>());
-        }
+        invoice.setCustomerId(entity.getCustomerId());
+        invoice.setOrderId(entity.getOrderId());
+        invoice.setInvoiceUrl(entity.getInvoiceUrl());
         
         return invoice;
-    }
-    
-    public static InvoiceItem fromInvoiceItemEntity(InvoiceItemEntity entity) {
-        InvoiceItem item = new InvoiceItem();
-        
-        item.setId(entity.getId());
-        item.setTimestamp(entity.getTimestamp());
-        
-        return item;
     }
     
 }

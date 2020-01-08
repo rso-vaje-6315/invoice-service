@@ -1,12 +1,17 @@
 package si.rso.invoice.api.endpoints;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.kumuluz.ee.logs.cdi.Log;
 import com.kumuluz.ee.rest.beans.QueryParameters;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.ArraySchema;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.eclipse.microprofile.metrics.annotation.Counted;
 import si.rso.invoice.lib.Invoice;
 import si.rso.invoice.services.InvoiceService;
 import si.rso.rest.common.HttpHeaders;
+import si.rso.rest.exceptions.dto.ExceptionResponse;
 
 import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
@@ -30,6 +35,12 @@ public class InvoiceEndpoint {
     @Inject
     private InvoiceService invoiceService;
     
+    @Operation(description = "Returns invoices.",
+        summary = "Returns invoice list", tags = "invoice",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Returns invoices.",
+                content = @Content(array = @ArraySchema(schema = @Schema(implementation = Invoice.class))))
+        })
     @GET
     public Response getInvoices() {
         QueryParameters query = QueryParameters.query(uriInfo.getRequestUri().getQuery()).build();
@@ -38,38 +49,20 @@ public class InvoiceEndpoint {
         return Response.ok(invoices).header(HttpHeaders.X_TOTAL_COUNT, invoicesCount).build();
     }
     
+    @Operation(description = "Returns invoice with given id.",
+        summary = "Returns invoice.", tags = "invoice",
+        responses = {
+            @ApiResponse(responseCode = "200", description = "Returns invoice.",
+                content = @Content(schema = @Schema(implementation = Invoice.class))),
+            @ApiResponse(responseCode = "404", description = "Invoice not found.",
+                content = @Content(schema = @Schema(implementation = ExceptionResponse.class)))
+        })
     @GET
     @Path("/{id}")
+    @Counted(name = "get-invoice-count")
     public Response getInvoice(@PathParam("id") String orderId) {
         Invoice invoice = invoiceService.getInvoice(orderId);
         return Response.ok(invoice).build();
     }
     
-    @GET
-    @Path("/test")
-    public Response test() {
-        this.invoiceService.createInvoice("tra");
-        return Response.ok().build();
-    }
-    
-    @GET
-    @Path("/config")
-    public Response getConfig() {
-        ObjectMapper mapper = new ObjectMapper();
-        ObjectNode responseNode = mapper.createObjectNode();
-        
-        ObjectNode vatNode = mapper.createObjectNode();
-        vatNode.put("vatRate", "0.22");
-        responseNode.set("vat", vatNode);
-    
-        ObjectNode companyNode = mapper.createObjectNode();
-        
-        companyNode.put("name", "Sellers d.o.o.");
-        companyNode.put("address", "Ljubljanska ulica 1, 1000 Ljubljana");
-        companyNode.put("phone", "+386134768812");
-        companyNode.put("email", "sellers@mail.com");
-        responseNode.set("company", companyNode);
-        
-        return Response.ok(responseNode).build();
-    }
 }

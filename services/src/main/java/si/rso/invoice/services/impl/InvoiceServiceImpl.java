@@ -3,18 +3,20 @@ package si.rso.invoice.services.impl;
 import com.kumuluz.ee.rest.beans.QueryParameters;
 import com.kumuluz.ee.rest.utils.JPAUtils;
 import com.lowagie.text.DocumentException;
+import org.eclipse.microprofile.faulttolerance.CircuitBreaker;
+import org.eclipse.microprofile.faulttolerance.Fallback;
+import org.eclipse.microprofile.faulttolerance.Retry;
+import org.eclipse.microprofile.faulttolerance.Timeout;
 import org.xhtmlrenderer.pdf.ITextRenderer;
-import si.rso.invoice.apis.OrdersApi;
 import si.rso.invoice.lib.Invoice;
+import si.rso.invoice.lib.InvoiceItem;
 import si.rso.invoice.mappers.InvoiceMapper;
 import si.rso.invoice.persistence.InvoiceConfigEntity;
 import si.rso.invoice.persistence.InvoiceEntity;
-import si.rso.invoice.persistence.InvoiceItemEntity;
 import si.rso.invoice.services.InvoiceService;
 import si.rso.invoice.services.NotificationService;
 import si.rso.invoice.services.StorageConnection;
 import si.rso.invoice.services.TemplateService;
-import si.rso.orders.lib.Order;
 import si.rso.rest.exceptions.NotFoundException;
 import si.rso.rest.exceptions.RestException;
 
@@ -34,7 +36,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-// import si.rso.invoice.services.OrderService;
 
 @ApplicationScoped
 public class InvoiceServiceImpl implements InvoiceService {
@@ -51,58 +52,43 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Inject
     private StorageConnection storageConnection;
     
-    private OrdersApi ordersApi;
-    
+    @CircuitBreaker
+    @Timeout(value = 3000)
+    @Retry(delay = 500)
     @Override
     @Transactional
-    public Invoice createInvoice(String orderId) {
-        
-        // Order order = ordersApi.getOrder(orderId);
+    public Invoice createInvoice(grpc.Invoice.InvoiceRequest request) {
         
         InvoiceEntity invoiceEntity = new InvoiceEntity();
-        invoiceEntity.setCustomerId("order.getCustomerId()");
-        invoiceEntity.setItems(new ArrayList<>());
-    
-        InvoiceItemEntity item1 = new InvoiceItemEntity();
-        item1.setCode("12334");
-        item1.setName("Hay bales");
-        item1.setQuantity(12);
-        item1.setPrice(34.12);
-        item1.setTotalPrice(409.44);
-        invoiceEntity.getItems().add(item1);
-    
-        InvoiceItemEntity item2 = new InvoiceItemEntity();
-        item2.setCode("45211");
-        item2.setName("Pitchforks");
-        item2.setQuantity(1);
-        item2.setPrice(29);
-        item2.setTotalPrice(29);
-        invoiceEntity.getItems().add(item2);
-    
-        InvoiceItemEntity item3 = new InvoiceItemEntity();
-        item3.setCode("09821");
-        item3.setName("Pigs");
-        item3.setQuantity(3);
-        item3.setPrice(199);
-        item3.setTotalPrice(597);
-        invoiceEntity.getItems().add(item3);
-        em.persist(invoiceEntity);
+        invoiceEntity.setCustomerId(request.getCustomer().getId());
+        invoiceEntity.setOrderId(request.getOrderId());
         
-        String invoiceUrl = this.generatePrintableInvoice(invoiceEntity);
-        invoiceEntity.setInvoiceUrl(invoiceUrl);
-        em.merge(invoiceEntity);
+        em.persist(invoiceEntity);
     
-        notificationService.sendNotification(invoiceEntity);
+        Map<String, Object> invoiceParameters = this.generateInvoiceItems(request, invoiceEntity.getId());
+        String invoiceUrl = this.generatePrintableInvoice(invoiceEntity, invoiceParameters);
+        
+        invoiceEntity.setInvoiceUrl(invoiceUrl);
+        
+        em.flush();
+        
+        notificationService.sendNotification(invoiceEntity, request.getCustomer().getEmail());
         
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }
     
+    @CircuitBreaker
+    @Fallback(fallbackMethod = "getInvoicesFallback")
     @Override
     public List<Invoice> getInvoices(QueryParameters query) {
         return JPAUtils.queryEntities(em, InvoiceEntity.class, query)
             .stream()
             .map(InvoiceMapper::fromInvoiceEntity)
             .collect(Collectors.toList());
+    }
+    
+    public List<Invoice> getInvoicesFallback(QueryParameters __) {
+        return new ArrayList<>();
     }
     
     @Override
@@ -119,24 +105,22 @@ public class InvoiceServiceImpl implements InvoiceService {
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }
     
-    private String generatePrintableInvoice(InvoiceEntity invoice) {
+    private String generatePrintableInvoice(InvoiceEntity invoice, Map<String, Object> templateParams) {
         
-        Map<String, Object> params = this.generateInvoiceItems(invoice);
-    
-        String renderedContent = this.templateService.renderTemplate("invoice", params);
+        String renderedContent = this.templateService.renderTemplate("invoice", templateParams);
         
         FileOutputStream fileOutputStream = null;
         String filename = "invoice-order-" + invoice.getId() + "-" + invoice.getCustomerId();
         try {
             final File pdfFile = File.createTempFile(filename, ".pdf");
             fileOutputStream = new FileOutputStream(pdfFile);
-    
+            
             ITextRenderer renderer = new ITextRenderer();
             renderer.setDocumentFromString(renderedContent);
             renderer.layout();
             renderer.createPDF(fileOutputStream, false);
             renderer.finishPDF();
-    
+            
             if (!Files.exists(Path.of("invoices"))) {
                 Files.createDirectory(Path.of("invoices"));
             }
@@ -180,19 +164,38 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
     
-    private Map<String, Object> generateInvoiceItems(InvoiceEntity invoice) {
+    private Map<String, Object> generateInvoiceItems(grpc.Invoice.InvoiceRequest request, String invoiceId) {
         Map<String, Object> params = new HashMap<>();
-        
+    
+        params.put("invoiceId", invoiceId);
         double vatRate = this.getVatRate();
         params.put("vatRate", vatRate);
-        params.put("items", invoice.getItems());
-        double totalPrice = invoice.getItems().stream().mapToDouble(InvoiceItemEntity::getTotalPrice).sum();
+        
+        List<InvoiceItem> items = request.getItemsList().stream()
+            .map(requestItem -> {
+                InvoiceItem item = new InvoiceItem();
+                item.setCode(requestItem.getCode());
+                item.setName(requestItem.getName());
+                item.setQuantity(requestItem.getQuantity());
+                item.setPrice(requestItem.getPrice());
+                item.setTotalPrice(requestItem.getPrice() * requestItem.getQuantity());
+                return item;
+            }).collect(Collectors.toList());
+        
+        params.put("items", items);
+        double totalPrice = items.stream().mapToDouble(InvoiceItem::getTotalPrice).sum();
         params.put("totalPrice", totalPrice);
         double taxPrice = totalPrice * vatRate;
         params.put("taxPrice", taxPrice);
         params.put("preTax", (totalPrice - taxPrice));
         
-        params.put("invoiceId", invoice.getId());
+        var customer = request.getCustomer();
+        params.put("customerName", customer.getName());
+        params.put("customerStreet", customer.getStreet());
+        params.put("customerPost", customer.getPost());
+        params.put("customerCountry", customer.getCountry());
+        params.put("customerEmail", customer.getEmail());
+        params.put("customerPhone", customer.getPhone());
         
         readValuesFromDB(params);
         

@@ -62,10 +62,6 @@
             <groupId>com.kumuluz.ee.openapi</groupId>
             <artifactId>kumuluzee-openapi-ui</artifactId>
         </dependency>
-        <!--        <dependency>-->
-        <!--            <groupId>com.kumuluz.ee.fault.tolerance</groupId>-->
-        <!--            <artifactId>kumuluzee-fault-tolerance-smallrye</artifactId>-->
-        <!--        </dependency>-->
         <dependency>
             <groupId>com.kumuluz.ee.streaming</groupId>
             <artifactId>kumuluzee-streaming-kafka</artifactId>
@@ -77,6 +73,10 @@
         <dependency>
             <groupId>com.kumuluz.ee.grpc</groupId>
             <artifactId>kumuluzee-grpc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.kumuluz.ee.discovery</groupId>
+            <artifactId>kumuluzee-discovery-consul</artifactId>
         </dependency>
     </dependencies>
 

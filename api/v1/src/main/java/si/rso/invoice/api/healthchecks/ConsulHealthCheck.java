@@ -3,7 +3,7 @@ package si.rso.invoice.api.healthchecks;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import org.eclipse.microprofile.health.HealthCheck;
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.Readiness;
+import org.eclipse.microprofile.health.Liveness;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.ws.rs.HttpMethod;
@@ -11,7 +11,7 @@ import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
-@Readiness
+@Liveness
 @ApplicationScoped
 public class ConsulHealthCheck implements HealthCheck {
     

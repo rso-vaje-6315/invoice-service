@@ -14,7 +14,8 @@ public class GrpcInvoiceEndpoint extends InvoiceServiceGrpc.InvoiceServiceImplBa
     @Override
     public void createInvoice(Invoice.InvoiceRequest request, StreamObserver<Invoice.InvoiceResponse> responseObserver) {
         InvoiceService invoiceService = CDI.current().select(InvoiceService.class).get();
-        var invoice = invoiceService.createInvoice(request.getOrderId());
+        
+        var invoice = invoiceService.createInvoice(request);
         
         responseObserver.onNext(Invoice.InvoiceResponse.newBuilder()
             .setStatus(200)

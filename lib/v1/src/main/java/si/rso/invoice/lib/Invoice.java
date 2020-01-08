@@ -1,12 +1,12 @@
 package si.rso.invoice.lib;
 
-import java.util.List;
-
 public class Invoice extends BaseType {
     
     private String customerId;
     
-    private List<InvoiceItem> items;
+    private String orderId;
+    
+    private String invoiceUrl;
     
     public String getCustomerId() {
         return customerId;
@@ -16,11 +16,19 @@ public class Invoice extends BaseType {
         this.customerId = customerId;
     }
     
-    public List<InvoiceItem> getItems() {
-        return items;
+    public String getOrderId() {
+        return orderId;
     }
     
-    public void setItems(List<InvoiceItem> items) {
-        this.items = items;
+    public void setOrderId(String orderId) {
+        this.orderId = orderId;
+    }
+    
+    public String getInvoiceUrl() {
+        return invoiceUrl;
+    }
+    
+    public void setInvoiceUrl(String invoiceUrl) {
+        this.invoiceUrl = invoiceUrl;
     }
 }

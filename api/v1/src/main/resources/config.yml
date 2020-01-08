@@ -16,6 +16,10 @@ kumuluzee:
     enabled: true
     ui:
       enabled: true
+  metrics:
+    web-instrumentation:
+      - name: invoice-endpoint
+        url-pattern: /v1/invoices/*
   logs:
     config-file: '<?xml version="1.0" encoding="UTF-8"?>
     <Configuration name="customers-service">
@@ -35,6 +39,10 @@ kumuluzee:
         </Loggers>
     </Configuration>'
   config:
+    consul:
+      agent: http://localhost:8500
+  discovery:
+    cluster: cluster-id
     consul:
       agent: http://localhost:8500
   health:
@@ -65,11 +73,6 @@ kumuluzee:
                "resource": "invoice-service",
                "confidential-port": 0
              }'
-  rest-client:
-    registrations:
-      - class: order-service
-        url: http://localhost:8081/v1
-        read-timeout: 5000
   grpc:
     server:
       url: localhost

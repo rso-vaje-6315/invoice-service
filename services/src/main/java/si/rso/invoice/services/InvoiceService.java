@@ -9,9 +9,9 @@ public interface InvoiceService {
     
     /**
      * Creates invoice for given order. Generates printable invoice, stores it into S3 and sends it to customer.
-     * @param orderId Order to generate invoice for
+     * @param request Order to generate invoice for
      */
-    Invoice createInvoice(String orderId);
+    Invoice createInvoice(grpc.Invoice.InvoiceRequest request);
     
     List<Invoice> getInvoices(QueryParameters query);
     

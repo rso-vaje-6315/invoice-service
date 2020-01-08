@@ -23,13 +23,13 @@
         <kumuluzee-security.version>1.1.0</kumuluzee-security.version>
         <kumuluzee-swagger.version>1.2.2</kumuluzee-swagger.version>
         <kumuluzee-openapi.version>1.0.1</kumuluzee-openapi.version>
-        <kumuluzee-fault-tolerance.version>2.0.0</kumuluzee-fault-tolerance.version>
         <kumuluzee-streaming.version>1.2.0</kumuluzee-streaming.version>
         <kumuluzee-grpc.version>1.1.0</kumuluzee-grpc.version>
         <kumuluzee-fault-tolerance.version>2.0.1</kumuluzee-fault-tolerance.version>
         <kumuluzee-config-consul.version>1.2.0</kumuluzee-config-consul.version>
         <kumuluzee-config-mp.version>1.3.0</kumuluzee-config-mp.version>
         <kumuluzee-metrics-core.version>2.0.1</kumuluzee-metrics-core.version>
+        <kumuluzee-discovery-consul.version>1.1.1</kumuluzee-discovery-consul.version>
 
         <jackson.version>2.9.10.1</jackson.version>
         <postgres.version>42.2.7</postgres.version>
@@ -150,6 +150,11 @@
                 <groupId>com.kumuluz.ee.metrics</groupId>
                 <artifactId>kumuluzee-metrics-core</artifactId>
                 <version>${kumuluzee-metrics-core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.kumuluz.ee.discovery</groupId>
+                <artifactId>kumuluzee-discovery-consul</artifactId>
+                <version>${kumuluzee-discovery-consul.version}</version>
             </dependency>
 
             <dependency>

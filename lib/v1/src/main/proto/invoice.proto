@@ -5,8 +5,27 @@ service InvoiceService {
     rpc createInvoice(InvoiceRequest) returns (InvoiceResponse) {};
 }
 
+message Customer {
+    string id = 1;
+    string name = 2;
+    string street = 3;
+    string post = 4;
+    string country = 5;
+    string email = 6;
+    string phone = 7;
+}
+
+message OrderItem {
+    string code = 1;
+    string name = 2;
+    int32 quantity = 3;
+    double price = 4;
+}
+
 message InvoiceRequest {
     string orderId = 1;
+    Customer customer = 2;
+    repeated OrderItem items = 3;
 }
 
 message InvoiceResponse {
