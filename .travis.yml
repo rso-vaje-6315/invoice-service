@@ -23,7 +23,7 @@ env:
   global:
     - GOOGLE_APPLICATION_CREDENTIALS=~/gcloud-service-key.json
     - PROJECT_NAME=local-reference-258619
-    - CLUSTER_NAME=second-cluster
+    - CLUSTER_NAME=third-cluster
     - CLOUDSDK_COMPUTE_ZONE=europe-west3-b
     - DOCKER_IMAGE_NAME=rso6315/invoice-service
     - KUBE_DEPLOYMENT_NAME=invoice-app-deployment
