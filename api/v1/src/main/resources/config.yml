@@ -62,7 +62,7 @@ kumuluzee:
       username: postgres
       password: postgres
       pool:
-        max-size: 20
+        max-size: 10
   security:
     keycloak:
       json: '{
