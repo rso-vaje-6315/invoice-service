@@ -1,5 +1,6 @@
 package si.rso.invoice.api.listeners;
 
+import com.google.common.base.Charsets;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
 import com.kumuluz.ee.logs.LogManager;
 import com.kumuluz.ee.logs.Logger;
@@ -36,7 +37,7 @@ public class StartupContextListener implements ServletContextListener {
             LOG.info("Creating credentials file...");
             File file = new File("credentials/google-key.json");
             LOG.info("Saving file to location {}", file.getAbsolutePath());
-            FileWriter fileWriter = new FileWriter(file);
+            FileWriter fileWriter = new FileWriter(file, Charsets.UTF_8);
             fileWriter.write(decodedCredentials);
             fileWriter.close();
             LOG.info("Credentials file created!");
