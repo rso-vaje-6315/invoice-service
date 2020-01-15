@@ -642,3 +642,4 @@ GitHub.sublime-settings
 *.iml
 invoices/
 ObjectStore/
+credentials/
