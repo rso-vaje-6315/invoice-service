@@ -87,6 +87,5 @@ google:
   storage:
     url: https://storage.googleapis.com
     bucket-name: rso-vaje-bucket
-    credentials: not_set
 service-config:
   maintenance: false
