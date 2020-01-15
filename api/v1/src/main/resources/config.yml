@@ -75,7 +75,6 @@ kumuluzee:
              }'
   grpc:
     server:
-      url: localhost
       http:
         port: 8443
   streaming:
