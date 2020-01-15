@@ -34,7 +34,9 @@ public class StartupContextListener implements ServletContextListener {
                 Files.createDirectory(Paths.get("credentials"));
             }
             LOG.info("Creating credentials file...");
-            FileWriter fileWriter = new FileWriter(new File("credentials/google-key.json"));
+            File file = new File("credentials/google-key.json");
+            LOG.info("Saving file to location {}", file.getAbsolutePath());
+            FileWriter fileWriter = new FileWriter(file);
             fileWriter.write(decodedCredentials);
             fileWriter.close();
             LOG.info("Credentials file created!");
