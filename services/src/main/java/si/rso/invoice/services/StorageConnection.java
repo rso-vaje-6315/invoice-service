@@ -2,6 +2,8 @@ package si.rso.invoice.services;
 
 import com.google.cloud.storage.*;
 import com.kumuluz.ee.configuration.utils.ConfigurationUtil;
+import com.kumuluz.ee.logs.LogManager;
+import com.kumuluz.ee.logs.Logger;
 
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.ApplicationScoped;
@@ -13,6 +15,8 @@ import java.nio.file.Path;
 @ApplicationScoped
 public class StorageConnection {
     
+    public static final Logger LOG = LogManager.getLogger(StorageConnection.class.getSimpleName());
+    
     private Storage storage;
     
     private String BUCKET_NAME;
@@ -21,6 +25,7 @@ public class StorageConnection {
     
     @PostConstruct
     private void init() {
+        LOG.info("Searching for google credentials in {}", System.getenv("GOOGLE_APPLICATION_CREDENTIALS"));
         this.storage = StorageOptions.getDefaultInstance().getService();
         this.BUCKET_NAME = ConfigurationUtil.getInstance()
             .get("google.storage.bucket-name")
