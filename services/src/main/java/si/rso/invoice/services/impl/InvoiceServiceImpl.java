@@ -56,21 +56,23 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Timeout(value = 3000)
     @Retry(delay = 500)
     @Override
-    @Transactional
     public Invoice createInvoice(grpc.Invoice.InvoiceRequest request) {
         
         InvoiceEntity invoiceEntity = new InvoiceEntity();
         invoiceEntity.setCustomerId(request.getCustomer().getId());
         invoiceEntity.setOrderId(request.getOrderId());
         
+        em.getTransaction().begin();
         em.persist(invoiceEntity);
+        em.getTransaction().commit();
     
         Map<String, Object> invoiceParameters = this.generateInvoiceItems(request, invoiceEntity.getId());
         String invoiceUrl = this.generatePrintableInvoice(invoiceEntity, invoiceParameters);
         
+        em.getTransaction().begin();
         invoiceEntity.setInvoiceUrl(invoiceUrl);
-        
-        em.flush();
+        em.getTransaction().commit();
+        // em.flush();
         
         notificationService.sendNotification(invoiceEntity, request.getCustomer().getEmail());
         
