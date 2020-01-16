@@ -18,6 +18,8 @@ public interface InvoiceService {
     long getInvoicesCount(QueryParameters query);
     
     Invoice getInvoice(String invoiceId);
-    
+
+    Invoice getInvoiceFromOrderId(String orderId);
+
     
 }
