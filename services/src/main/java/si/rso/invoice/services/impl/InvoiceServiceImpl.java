@@ -114,7 +114,9 @@ public class InvoiceServiceImpl implements InvoiceService {
         try {
             InvoiceEntity invoiceEntity = query.getSingleResult();
             return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
-        } catch (NoResultException | NonUniqueResultException e) {
+        } catch (NoResultException e) {
+            throw new NotFoundException(InvoiceEntity.class, orderId);
+        } catch (NonUniqueResultException e) {
             e.printStackTrace();
             throw new RestException("Error getting invoice by orderId");
         }

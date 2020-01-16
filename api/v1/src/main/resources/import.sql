@@ -11,4 +11,4 @@ INSERT INTO invoice_config(id, timestamp, code, config_value) VALUES ('83436113-
 INSERT INTO invoice_config(id, timestamp, code, config_value) VALUES ('ee6035bc-3b1e-4f32-8044-c304bea7277d', NOW(), 'seller.iban', 'SI56 2345 1234 9678 990');
 INSERT INTO invoice_config(id, timestamp, code, config_value) VALUES ('3ea12e75-c89e-4493-a7f4-0500a7a539c3', NOW(), 'seller.email', 'sales@sellers.com');
 
-INSERT INTO invoices(id, timestamp, customer_id, invoice_url) VALUES ('721430e6-00c4-408a-9215-c0814ab2b540', NOW(), 'customerId', 'https://storage.cloud.google.com/rso-vaje-bucket/1575394160630-invoice-order-invoiceId-customerId.pdf?hl=sl');
+INSERT INTO invoices(id, timestamp, customer_id, invoice_url, order_id) VALUES ('721430e6-00c4-408a-9215-c0814ab2b540', NOW(), 'customerId', 'https://storage.cloud.google.com/rso-vaje-bucket/1575394160630-invoice-order-invoiceId-customerId.pdf?hl=sl', '520cb7af-b986-4415-ba90-ba3c1a589a40');
