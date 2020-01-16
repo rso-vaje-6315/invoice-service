@@ -12,6 +12,7 @@ import si.rso.invoice.services.NotificationService;
 import si.rso.notifications.lib.ChannelNotification;
 import si.rso.notifications.lib.EmailNotification;
 import si.rso.notifications.lib.NotificationsStreamConfig;
+import si.rso.notifications.lib.SmsNotification;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -25,7 +26,7 @@ public class NotificationServiceImpl implements NotificationService {
     
     @CircuitBreaker
     @Override
-    public void sendNotification(InvoiceEntity invoice, String customerEmail) {
+    public void sendNotification(InvoiceEntity invoice, String customerEmail, String customerPhone) {
     
         EmailNotification email = new EmailNotification();
         email.setSubject("Invoice " + invoice.getId());
@@ -36,6 +37,10 @@ public class NotificationServiceImpl implements NotificationService {
         attachment.setName("invoice_" + invoice.getId() + ".pdf");
         attachment.setUrl(invoice.getInvoiceUrl());
         email.setAttachment(attachment);
+    
+        SmsNotification smsNotification = new SmsNotification();
+        smsNotification.setContent("Order with id '" + invoice.getOrderId() + "' was fulfilled! It will be delivered soon.");
+        smsNotification.setPhoneNumber(customerPhone);
     
         ChannelNotification channelNotification = new ChannelNotification();
         channelNotification.setEmail(email);

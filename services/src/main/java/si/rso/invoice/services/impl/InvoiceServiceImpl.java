@@ -74,7 +74,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         em.getTransaction().commit();
         // em.flush();
         
-        notificationService.sendNotification(invoiceEntity, request.getCustomer().getEmail());
+        notificationService.sendNotification(invoiceEntity, request.getCustomer().getEmail(), request.getCustomer().getPhone());
         
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }

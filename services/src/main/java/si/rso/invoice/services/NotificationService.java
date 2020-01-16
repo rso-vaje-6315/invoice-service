@@ -4,6 +4,6 @@ import si.rso.invoice.persistence.InvoiceEntity;
 
 public interface NotificationService {
     
-    void sendNotification(InvoiceEntity invoice, String customerEmail);
+    void sendNotification(InvoiceEntity invoice, String customerEmail, String customerPhone);
     
 }
