@@ -5,7 +5,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "invoices")
 @NamedQueries(
-        @NamedQuery(name = InvoiceEntity.FIND_BY_ORDER_ID, query = "SELECT i FROM InvoiceEntity i WHERE i.order_id = :orderId")
+        @NamedQuery(name = InvoiceEntity.FIND_BY_ORDER_ID, query = "SELECT i FROM InvoiceEntity i WHERE i.orderId = :orderId")
 )
 public class InvoiceEntity extends BaseEntity {
 
