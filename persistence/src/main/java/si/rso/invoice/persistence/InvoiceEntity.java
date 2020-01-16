@@ -1,12 +1,15 @@
 package si.rso.invoice.persistence;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "invoices")
+@NamedQueries(
+        @NamedQuery(name = InvoiceEntity.FIND_BY_ORDER_ID, query = "SELECT i FROM InvoiceEntity i WHERE i.order_id = :orderId")
+)
 public class InvoiceEntity extends BaseEntity {
+
+    public static final String FIND_BY_ORDER_ID = "InvoiceEntity.findByOrderId";
     
     @Column(name = "customer_id")
     private String customerId;

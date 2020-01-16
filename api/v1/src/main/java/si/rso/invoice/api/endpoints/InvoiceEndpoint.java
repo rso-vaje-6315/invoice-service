@@ -60,9 +60,15 @@ public class InvoiceEndpoint {
     @GET
     @Path("/{id}")
     @Counted(name = "get-invoice-count")
-    public Response getInvoice(@PathParam("id") String orderId) {
-        Invoice invoice = invoiceService.getInvoice(orderId);
+    public Response getInvoice(@PathParam("id") String invoiceId) {
+        Invoice invoice = invoiceService.getInvoice(invoiceId);
         return Response.ok(invoice).build();
     }
-    
+
+    @GET
+    @Path("/order/{orderId}")
+    public Response getInvoiceFromOrderId(@PathParam("orderId") String orderId) {
+        Invoice invoice = invoiceService.getInvoiceFromOrderId(orderId);
+        return Response.ok(invoice).build();
+    }
 }

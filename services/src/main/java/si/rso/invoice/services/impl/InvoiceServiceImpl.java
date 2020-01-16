@@ -106,6 +106,19 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
         return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
     }
+
+    @Override
+    public Invoice getInvoiceFromOrderId(String orderId) {
+        TypedQuery<InvoiceEntity> query = em.createNamedQuery(InvoiceEntity.FIND_BY_ORDER_ID, InvoiceEntity.class);
+        query.setParameter("orderId", orderId);
+        try {
+            InvoiceEntity invoiceEntity = query.getSingleResult();
+            return InvoiceMapper.fromInvoiceEntity(invoiceEntity);
+        } catch (NoResultException | NonUniqueResultException e) {
+            e.printStackTrace();
+            throw new RestException("Error getting invoice by orderId");
+        }
+    }
     
     private String generatePrintableInvoice(InvoiceEntity invoice, Map<String, Object> templateParams) {
         
