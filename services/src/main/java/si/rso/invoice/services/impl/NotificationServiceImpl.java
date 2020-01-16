@@ -44,6 +44,7 @@ public class NotificationServiceImpl implements NotificationService {
     
         ChannelNotification channelNotification = new ChannelNotification();
         channelNotification.setEmail(email);
+        channelNotification.setSms(smsNotification);
         
         EventStreamMessage message = EventStreamMessageBuilder.getInstance()
             .ofType(NotificationsStreamConfig.SEND_NOTIFICATION_EVENT_ID)
